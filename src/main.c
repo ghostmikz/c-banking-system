@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_USERS 100
+#define MAX_NOTE_LENGTH 100
 
 struct User {
     int accountID;
@@ -15,6 +17,14 @@ struct User {
     double balance;
 };
 
+struct Transaction {
+    int accountNumber;
+    char type[20];
+    double amount;
+    char note[MAX_NOTE_LENGTH];
+    char date[20];
+};
+
 struct User users[MAX_USERS];
 int userCount = 0;
 
@@ -24,8 +34,11 @@ void loadUsers();
 void saveUsers();
 void registerUser();
 void showMenu();
+void viewTransactionHistory(int userId);
 void showDashboard(int userId);
 void viewBalance(int userId);
+void depositMoney(int userId);
+void logTransaction(int accountNumber, const char* type, double amount, const char* note);
 
 int main() {
     printf("👋 Таны банкны системд тавтай морилно уу!\n");
@@ -36,6 +49,93 @@ int main() {
     showDashboard(userId);
     
     return 0;
+}
+
+void viewTransactionHistory(int userId) {
+    FILE *file = fopen("../data/transactions.dat", "r");
+    if (file == NULL) {
+        printf("⚠️  Гүйлгээний түүх олдсонгүй.\n");
+        return;
+    }
+
+    char line[256];
+    int acc;
+    char type[20], note[MAX_NOTE_LENGTH], date[40];
+    double amount;
+
+    printf("\n📜 Гүйлгээний түүх\n-------------------\n");
+
+    while (fgets(line, sizeof(line), file)) {
+        char extra[100];
+        if (sscanf(line, "%d %s %lf %s %[^\n]", &acc, type, &amount, note, extra) == 5) {
+          
+            char fullNoteDate[MAX_NOTE_LENGTH + 40];
+            snprintf(fullNoteDate, sizeof(fullNoteDate), "%s %s", note, extra);
+
+            if (acc == users[userId].accountNumber) {
+
+                char *lastSpace = strrchr(fullNoteDate, ' ');
+                if (lastSpace) {
+
+                    strncpy(date, lastSpace - 8, 19);
+                    date[19] = '\0';
+
+                    *(lastSpace - 9) = '\0'; 
+                    strcpy(note, fullNoteDate);
+                } else {
+                    strcpy(note, fullNoteDate);
+                    strcpy(date, "???");
+                }
+
+                printf("📅 %s\n", date);
+                printf("   %s %.2f₮ %s\n", type, amount, note);
+                printf("-------------------\n");
+            }
+        }
+    }
+
+    fclose(file);
+}
+
+
+void logTransaction(int accountNumber, const char* type, double amount, const char* note) {
+    FILE *file = fopen("../data/transactions.dat", "a");
+    if (file == NULL) {
+        printf("⚠️  Failed to open transactions file.\n");
+        return;
+    }
+
+    time_t t = time(NULL);
+    struct tm *tm_info = localtime(&t);
+    char date[20];
+
+    strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", tm_info);
+
+    fprintf(file, "%d %s %.2f %s %s\n", accountNumber, type, amount, note, date);
+
+    fclose(file);
+}
+
+void depositMoney(int userId) {
+    double amount;
+    char note[100] = "Орлого орох"; 
+    
+    printf("\n💰 Мөнгө хийх\n-------------------\n");
+    printf("Бодит мөнгөн дүнг оруулна уу: ");
+    scanf("%lf", &amount);
+
+    if (amount <= 0) {
+        printf("⚠️  Мөнгөний дүн нь эерэг байх ёстой.\n");
+        return;
+    }
+
+    users[userId].balance += amount;
+
+    logTransaction(users[userId].accountNumber, "Орлого", amount, note);
+
+    saveUsers();
+
+    printf("✅ Амжилттай мөнгө хийгдлээ. Таны шинэ үлдэгдэл: %.2f₮\n", users[userId].balance);
 }
 
 void viewBalance(int userId) {
@@ -92,19 +192,19 @@ void showDashboard(int userId) {
 
         switch (choice) {
             case 1:
-                viewBalance();
+                viewBalance(userId);
                 break;
             case 2:
-                //depositMoney();
+                depositMoney(userId);
                 break;
             case 3:
-                //withdrawMoney();
+                withdrawMoney(userId);
                 break;
             case 4:
                 //transferMoney();
                 break;
             case 5:
-                //viewTransactionHistory();
+                viewTransactionHistory(userId);
                 break;
             case 6:
                 printf("👋 Гарах үйлдлийг гүйцэтгэж байна...\n");
