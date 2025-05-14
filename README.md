@@ -6,17 +6,17 @@ A simple terminal-based banking system written in C. It allows users to register
 
 ## 📁 File Structure
 
-c-banking-system/
+```markdown
+# Project tree
 
-├── data/
-
-│ ├── users.dat # Stores user account information
-│ ├── transactions.dat # Logs of all transactions (deposits, withdrawals, transfers)
-│ ├── session.dat # Logs login time and account number of each session
-├── src/
-│ └── main.c # Main source code file
-├── README.md # Project documentation
-
+* [data](data/)
+  * [session.dat](data/session.dat)
+  * [transactions.dat](data/transactions.dat)
+  * [users.dat](data/users.dat)
+* [src](src/)
+  * [main.c](src/main.c)
+* [README.md](README.md)
+```
 
 ---
 
