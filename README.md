@@ -1,61 +1,94 @@
 # 🏦 C Banking System
 
-A simple terminal-based banking system written in C. It allows users to register, log in, and perform various banking operations such as deposit, withdrawal, transfer, and view transaction history. User data is stored persistently in `.dat` files.
+A simple terminal-based banking system written in C. It allows users to register, log in, and perform various banking operations such as deposits, withdrawals, transfers, and viewing transaction history. User data and session logs are persistently stored in `.dat` files.
 
-## 📂 File Structure
+---
+
+## 📁 File Structure
 
 c-banking-system/
+
 ├── data/
-│ ├── users.dat # Stores user data
-│ ├── transactions.dat # Stores transaction history
+
+│ ├── users.dat # Stores user account information
+│ ├── transactions.dat # Logs of all transactions (deposits, withdrawals, transfers)
+│ ├── session.dat # Logs login time and account number of each session
 ├── src/
-│ └── main.c # Main source code
+│ └── main.c # Main source code file
 ├── README.md # Project documentation
 
 
+---
+
 ## ✅ Features
 
-- User Registration & Login
-- Deposit, Withdraw, Transfer (with PIN verification)
-- Transaction Logging and Viewing
-- Change Password or PIN
-- Basic error handling and data persistence
+- 📌 User Registration & Login
+- 💰 Deposit, Withdraw, Transfer (with PIN verification)
+- 📄 Transaction History Logging and Viewing
+- 🔐 Change Password or PIN
+- 🔍 User Info Editing
+- 📆 Session Logging (who logged in and when)
+- ⚠️ Basic error handling and input validation
+- 💾 Persistent file-based storage using `.dat` files
 
-## 🧑‍💻 User Fields
+---
 
-Each user has the following information stored:
-- Account ID
-- Account Number
-- First Name
-- Last Name
-- Phone Number
-- Password
-- Birthday
-- PIN
-- Balance
+## 👤 User Data Fields
+
+Each user has the following data:
+
+- `Account ID` – Unique internal ID
+- `Account Number` – Public-facing banking number
+- `First Name`
+- `Last Name`
+- `Phone Number`
+- `Password`
+- `PIN` – 4-digit verification for sensitive operations
+- `Birthday`
+- `Balance`
+
+---
 
 ## ⚙️ How to Compile
 
-Make sure you are in the `src/` directory:
+Open terminal, navigate to the `src/` directory and run:
 
-"gcc main.c -o banking"
+```
+gcc main.c -o banking
+```
 
-## 🚀 How to Run
+🚀 How to Run
 
-From the src/ directory:
+Still inside the src/ directory, execute the program with:
 
-"./banking"
+```
+./banking
+```
 
-Make sure the data/ folder exists in the parent directory before running the program. If not, create it:
+Make sure the data/ folder exists in the parent directory. If it does not exist, create it:
 
-"mkdir ../data"
+```
+mkdir ../data
+```
 
-## 📌 Notes
+📂 Session Logging
 
-PIN is required for deposit, withdrawal, and transfers.
+Every time a user logs in successfully, their account number and timestamp are saved in data/session.dat. The format is:
 
-Data is saved in plain text files. This system is not secure for real-world use.
+```
+[YYYY-MM-DD HH:MM:SS] AccountNumber
+```
 
-## 📝 License
+This helps track login history.
 
-This project is provided for educational purposes only.
+📝 Notes
+
+PIN is required to make deposits, withdrawals, or transfers.
+
+Data is stored in plain text format and not encrypted.
+
+This project is for educational purposes only. Do not use in production environments.
+
+🧑‍💻 License
+
+This project is open-source and free to use for learning and experimentation.
