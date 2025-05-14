@@ -26,7 +26,6 @@ A simple terminal-based banking system written in C. It allows users to register
 - 💰 Deposit, Withdraw, Transfer (with PIN verification)
 - 📄 Transaction History Logging and Viewing
 - 🔐 Change Password or PIN
-- 🔍 User Info Editing
 - 📆 Session Logging (who logged in and when)
 - ⚠️ Basic error handling and input validation
 - 💾 Persistent file-based storage using `.dat` files
