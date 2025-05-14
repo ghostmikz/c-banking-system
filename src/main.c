@@ -38,7 +38,6 @@ void registerUser();
 void showMenu();
 void changePin(int userId);
 void updateUserInfo(int userId);
-void viewTransactionHistory(int userId);
 void changePassword(int userId);
 void showDashboard(int userId);
 void showSettings(int userId);
@@ -46,6 +45,8 @@ void viewBalance(int userId);
 void transferMoney(int userId);
 void withdrawMoney(int userId);
 void depositMoney(int userId);
+void viewTransactionHistory(int userId);
+void logSession(int accountNumber);
 void logTransaction(int accountNumber, const char* type, double amount, const char* note);
 
 int main() {
@@ -57,6 +58,21 @@ int main() {
     showDashboard(userId);
     
     return 0;
+}
+
+void logSession(int accountNumber) {
+    FILE *file = fopen("../data/session.dat", "a");
+    if (file == NULL) {
+        printf("⚠️ Session файлыг нээж чадсангүй.\n");
+        return;
+    }
+
+    time_t now = time(NULL);
+    char *timeStr = ctime(&now);
+    timeStr[strcspn(timeStr, "\n")] = 0; 
+
+    fprintf(file, "%d %s\n", accountNumber, timeStr);
+    fclose(file);
 }
 
 void changePin(int userId) {
@@ -539,6 +555,7 @@ int loginUser() {
     for (int i = 0; i < userCount; i++) {
         if (strcmp(users[i].phone, phone) == 0 && strcmp(users[i].password, password) == 0) {
             printf("✅ Амжилттай нэвтэрлээ!\n");
+            logSession(users[i].accountNumber);  
             return i;  
         }
     }
