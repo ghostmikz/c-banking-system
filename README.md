@@ -57,7 +57,7 @@ Open terminal, navigate to the `src/` directory and run:
 gcc main.c -o banking
 ```
 
-🚀 How to Run
+## 🚀 How to Run
 
 Still inside the src/ directory, execute the program with:
 
@@ -71,7 +71,7 @@ Make sure the data/ folder exists in the parent directory. If it does not exist,
 mkdir ../data
 ```
 
-📂 Session Logging
+## 📂 Session Logging
 
 Every time a user logs in successfully, their account number and timestamp are saved in data/session.dat. The format is:
 
@@ -81,7 +81,7 @@ Every time a user logs in successfully, their account number and timestamp are s
 
 This helps track login history.
 
-📝 Notes
+## 📝 Notes
 
 PIN is required to make deposits, withdrawals, or transfers.
 
@@ -89,6 +89,6 @@ Data is stored in plain text format and not encrypted.
 
 This project is for educational purposes only. Do not use in production environments.
 
-🧑‍💻 License
+## 🧑‍💻 License
 
 This project is open-source and free to use for learning and experimentation.
