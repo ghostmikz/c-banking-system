@@ -7,7 +7,7 @@ A simple terminal-based banking system written in C. It allows users to register
 ## 📁 File Structure
 
 ```markdown
-# Project tree
+# File Structure:
 
 * [data](data/)
   * [session.dat](data/session.dat)
