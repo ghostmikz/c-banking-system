@@ -27,25 +27,13 @@ struct Transaction {
     char date[20];
 };
 
-struct Loan {
-    int accountNumber;
-    double amount;
-    double remaining;
-    char date[20];
-}
-
-struct Loan loans[MAX_LOANS];
-int loanCount = 0;
-
 struct User users[MAX_USERS];
 int userCount = 0;
 
 int loginUser();
 int displayPreLoginMenu();
 int verifyPin(int userId);
-void loanLoans();
-void saveLoans();
-int loadUsers();
+void loadUsers();
 void saveUsers();
 void registerUser();
 void showMenu();
@@ -119,23 +107,6 @@ int verifyPin(int userId) {
         printf("⚠️ Буруу PIN.\n");
         return 0;  
     }
-}
-
-void updateUserInfo(int userId) {
-    printf("\n✍️ Хэрэглэгчийн мэдээллийг засах\n-------------------\n");
-
-    printf("1. Нэр (Өөрчлөхгүй бол оруулалгүй орхино уу): ");
-    scanf(" %[^\n]", users[userId].firstName);
-
-    printf("2. Овог (Өөрчлөхгүй бол оруулалгүй орхино уу): ");
-    scanf(" %[^\n]", users[userId].lastName);
-
-    printf("3. Төрсөн огноо (YYYY-MM-DD) (Өөрчлөхгүй бол оруулалгүй орхино уу): ");
-    scanf(" %[^\n]", users[userId].birthday);
-
-    saveUsers();
-
-    printf("✅ Мэдээлэл амжилттай шинэчлэгдлээ!\n");
 }
 
 void changePassword(int userId) {
@@ -354,7 +325,7 @@ void depositMoney(int userId) {
         return; 
     }
     double amount;
-    char note[100] = "Орлого орох"; 
+    char note[100] = "Орлого"; 
     
     printf("\n💰 Мөнгө хийх\n-------------------\n");
     printf("Бодит мөнгөн дүнг оруулна уу: ");
