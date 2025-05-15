@@ -5,6 +5,7 @@
 
 #define MAX_USERS 100
 #define MAX_NOTE_LENGTH 100
+#define MAX_LOANS 100
 
 struct User {
     int accountID;
@@ -26,18 +27,29 @@ struct Transaction {
     char date[20];
 };
 
+struct Loan {
+    int accountNumber;
+    double amount;
+    double remaining;
+    char date[20];
+}
+
+struct Loan loans[MAX_LOANS];
+int loanCount = 0;
+
 struct User users[MAX_USERS];
 int userCount = 0;
 
 int loginUser();
 int displayPreLoginMenu();
 int verifyPin(int userId);
-void loadUsers();
+void loanLoans();
+void saveLoans();
+int loadUsers();
 void saveUsers();
 void registerUser();
 void showMenu();
 void changePin(int userId);
-void updateUserInfo(int userId);
 void changePassword(int userId);
 void showDashboard(int userId);
 void showSettings(int userId);
@@ -176,6 +188,7 @@ void showSettings(int userId) {
                 break;
             case 2:
                 changePin(userId);
+                break;
             case 3:
                 return; 
             default:
