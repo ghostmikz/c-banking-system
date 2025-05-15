@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 #define MAX_USERS 100
 #define MAX_NOTE_LENGTH 100
@@ -37,6 +38,7 @@ void loadUsers();
 void saveUsers();
 void registerUser();
 void showMenu();
+void showLoginAnimation();
 void changePin(int userId);
 void changePassword(int userId);
 void showDashboard(int userId);
@@ -58,6 +60,33 @@ int main() {
     showDashboard(userId);
     
     return 0;
+}
+
+#include <stdio.h>
+#include <unistd.h>
+
+void showLoginAnimation() {
+    const char *frames[] = {
+        "[=     ]",
+        "[==    ]",
+        "[===   ]",
+        "[====  ]",
+        "[===== ]",
+        "[======]"
+    };
+    printf("⏳ Нэвтэрч байна ");
+    fflush(stdout);
+
+    for (int i = 0; i < 12; i++) {
+        printf("%s", frames[i % 6]);
+        fflush(stdout);
+        usleep(150000);
+        printf("\b\b\b\b\b\b\b\b");  // 8 backspaces to erase the loading bar only
+        fflush(stdout);
+    }
+
+    printf("%s\n", frames[5]);  // print full bar one last time
+    printf("✅ Амжилттай нэвтэрлээ!\n");
 }
 
 void logSession(int accountNumber) {
@@ -538,11 +567,11 @@ int loginUser() {
 
     for (int i = 0; i < userCount; i++) {
         if (strcmp(users[i].phone, phone) == 0 && strcmp(users[i].password, password) == 0) {
-            printf("✅ Амжилттай нэвтэрлээ!\n");
+            showLoginAnimation(); 
             logSession(users[i].accountNumber);  
             return i;  
         }
-    }
+    }    
 
     printf("❌ Нэвтрэх нэр эсвэл нууц үг буруу байна.\n");
     return -1;  
