@@ -33,6 +33,7 @@ int userCount = 0;
 
 int loginUser();
 int displayPreLoginMenu();
+int generateAccountNumber();
 int verifyPin(int userId);
 void loadUsers();
 void saveUsers();
@@ -56,10 +57,31 @@ int main() {
     
     loadUsers();
 
-    int userId = displayPreLoginMenu(); 
-    showDashboard(userId);
+    int userId;
+    while (1) {
+        userId = displayPreLoginMenu(); 
+        showDashboard(userId);
+    }    
     
     return 0;
+}
+
+int generateAccountNumber() {
+    int number;
+    int exists;
+    do {
+        number = rand() % 900000 + 100000;
+        exists = 0;
+
+        for (int i = 0; i < userCount; i++) {
+            if (users[i].accountNumber == number) {
+                exists = 1;
+                break;
+            }
+        }
+    } while (exists);
+
+    return number;
 }
 
 void showLoginAnimation() {
@@ -411,6 +433,8 @@ void showDashboard(int userId) {
 
     while (1) {
         printf("\n=========================================\n");
+        printf(" 🧑 %s %s  |  📄 Данс: %d\n", users[userId].firstName, users[userId].lastName, users[userId].accountNumber);
+        printf("=========================================\n");
         printf("        💼 Хэрэглэгчийн Самбар\n");
         printf("=========================================\n");
         printf(" 1. 💰 Үлдэгдэл харах\n");
@@ -540,7 +564,7 @@ void registerUser() {
     strcpy(users[userCount].pin, pin);
     
     users[userCount].accountID = userCount + 1;  
-    users[userCount].accountNumber = 100000 + userCount;  
+    users[userCount].accountNumber = generateAccountNumber();  
     
     users[userCount].balance = 0.0;
 
