@@ -62,9 +62,6 @@ int main() {
     return 0;
 }
 
-#include <stdio.h>
-#include <unistd.h>
-
 void showLoginAnimation() {
     const char *frames[] = {
         "[=     ]",
@@ -81,11 +78,11 @@ void showLoginAnimation() {
         printf("%s", frames[i % 6]);
         fflush(stdout);
         usleep(150000);
-        printf("\b\b\b\b\b\b\b\b");  // 8 backspaces to erase the loading bar only
+        printf("\b\b\b\b\b\b\b\b");  
         fflush(stdout);
     }
 
-    printf("%s\n", frames[5]);  // print full bar one last time
+    printf("%s\n", frames[5]);  
     printf("✅ Амжилттай нэвтэрлээ!\n");
 }
 
@@ -334,7 +331,7 @@ void viewTransactionHistory(int userId) {
 void logTransaction(int accountNumber, const char* type, double amount, const char* note) {
     FILE *file = fopen("../data/transactions.dat", "a");
     if (file == NULL) {
-        printf("⚠️  Failed to open transactions file.\n");
+        printf("⚠️  Гүйлгээний файл оруулахад алдаа гарлаа.\n");
         return;
     }
 
