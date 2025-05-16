@@ -34,8 +34,6 @@ int userCount = 0;
 int loginUser();
 int displayPreLoginMenu();
 int verifyPin(int userId);
-int generateAccountNumber();
-int isAccountNumberUnique(int number);
 void loadUsers();
 void saveUsers();
 void registerUser();
